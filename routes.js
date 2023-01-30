@@ -60,6 +60,19 @@ router.get("/:id/", async function(req, res, next) {
   }
 });
 
+router.get("/search-results/", async function(req, res, next) {
+  try {
+    const { lastName } = req.query;
+    console.log(req.query)
+    const customers = await customer.search();
+    const fullName = await customer.getFullName();
+
+    return res.render("search-results.html", { customers, fullName });
+  } catch (err) {
+    return next(err);
+  }
+});
+
 /** Show form to edit a customer. */
 
 router.get("/:id/edit/", async function(req, res, next) {

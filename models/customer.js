@@ -84,6 +84,27 @@ class Customer {
     }
   }
 
+  async search(lastName) {
+    const results = await db.query(
+      `SELECT id, 
+         first_name AS "firstName",  
+         last_name AS "lastName", 
+         phone, 
+         notes 
+        FROM customers WHERE lastName = $1`,
+      [lastName]
+    );
+
+    const customers = results.rows.map(c => new Customer(c));;
+
+    if (customers === undefined) {
+      const err = new Error(`No such customer: ${id}`);
+      err.status = 404;
+      throw err;
+    }
+
+    return customers;
+  }
 }
 
 module.exports = Customer;
