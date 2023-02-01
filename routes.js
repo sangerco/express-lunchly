@@ -60,14 +60,15 @@ router.get("/:id/", async function(req, res, next) {
   }
 });
 
-router.get("/search-results/", async function(req, res, next) {
+router.get("/search_results/", async function(req, res, next) {
+  console.log(req.query)
   try {
-    const { lastName } = req.query;
+    const lastName = req.query.last_name;
     console.log(req.query)
-    const customers = await customer.search();
-    const fullName = await customer.getFullName();
+    const customers = await customer.search(lastName);
+    // const fullName = await customer.getFullName();
 
-    return res.render("search-results.html", { customers, fullName });
+    return res.render("search_results.html", { customers });
   } catch (err) {
     return next(err);
   }

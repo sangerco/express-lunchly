@@ -88,17 +88,15 @@ class Customer {
     const results = await db.query(
       `SELECT id, 
          first_name AS "firstName",  
-         last_name AS "lastName", 
-         phone, 
-         notes 
-        FROM customers WHERE lastName = $1`,
+         last_name AS "lastName"
+        FROM customers WHERE last_name = $1`,
       [lastName]
     );
 
     const customers = results.rows.map(c => new Customer(c));;
 
     if (customers === undefined) {
-      const err = new Error(`No such customer: ${id}`);
+      const err = new Error(`No such customer: ${lastName}`);
       err.status = 404;
       throw err;
     }
