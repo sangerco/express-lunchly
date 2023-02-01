@@ -48,6 +48,19 @@ router.post("/add/", async function(req, res, next) {
 
 /** Show a customer, given their ID. */
 
+router.get("/search_results/", async function(req, res, next) {
+  try {
+    const lastName = req.query.last_name;
+    console.log(req.query.last_name)
+    const customers = await Customer.search(lastName);
+
+    return res.render("search_results.html", { customers });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).render('customer_list.html');
+  }
+});
+
 router.get("/:id/", async function(req, res, next) {
   try {
     const customer = await Customer.get(req.params.id);
@@ -60,19 +73,6 @@ router.get("/:id/", async function(req, res, next) {
   }
 });
 
-router.get("/search_results/", async function(req, res, next) {
-  console.log(req.query)
-  try {
-    const lastName = req.query.last_name;
-    console.log(req.query)
-    const customers = await customer.search(lastName);
-    // const fullName = await customer.getFullName();
-
-    return res.render("search_results.html", { customers });
-  } catch (err) {
-    return next(err);
-  }
-});
 
 /** Show form to edit a customer. */
 

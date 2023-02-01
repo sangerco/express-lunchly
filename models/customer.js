@@ -84,7 +84,7 @@ class Customer {
     }
   }
 
-  async search(lastName) {
+  static async search(lastName) {
     const results = await db.query(
       `SELECT id, 
          first_name AS "firstName",  
